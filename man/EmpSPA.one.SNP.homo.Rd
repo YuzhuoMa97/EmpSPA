@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpSPA.R
 \name{EmpSPA.one.SNP.homo}
 \alias{EmpSPA.one.SNP.homo}
-\title{Empirical SaddlePoint Approximation implementation of logistic regression case-control analysis, Cox regression surival analysis or analysis of other traits (One-SNP-version for homogeneous case)}
+\title{Empirical SaddlePoint Approximation implementation for homozygous option of logistic regression case-control analysis, Cox regression surival analysis or analysis of other traits (One-SNP-version homozygous option)}
 \usage{
 EmpSPA.one.SNP.homo(
   g,
@@ -22,5 +22,5 @@ EmpSPA.one.SNP.homo(
 the same as function EmpSPA.
 }
 \description{
-One-SNP-version EmpSPA function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
+One-SNP-version EmpSPA.homo function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
 }

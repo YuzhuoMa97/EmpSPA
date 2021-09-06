@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpSPA.R
 \name{EmpSPA.one.SNP.hete}
 \alias{EmpSPA.one.SNP.hete}
-\title{Empirical SaddlePoint Approximation implementation of logistic regression case-control analysis, Cox regression surival analysis or analysis of other traits (One-SNP-version for heterogeneous case)}
+\title{Empirical SaddlePoint Approximation for heterozygous option implementation of logistic regression case-control analysis, Cox regression surival analysis or analysis of other traits (One-SNP-version for heterozygous option)}
 \usage{
 EmpSPA.one.SNP.hete(
   g,
@@ -14,7 +14,7 @@ EmpSPA.one.SNP.hete(
 )
 }
 \arguments{
-\item{g}{a numeric genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.}
+\item{g}{a numeric genotype vector. Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.}
 
 \item{others}{the same as function EmpSPA.homo. NOTE that we do not check subject order in this one-snp-version !!!}
 }

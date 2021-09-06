@@ -18,7 +18,7 @@ EmpSPA_Null_Model(
 )
 }
 \arguments{
-\item{traits}{a character value corresponding to phenotype. It should be "binary" for binary phenotype and "survival" for time-to-event phenotype.}
+\item{traits}{a character value corresponding to phenotype. It should be "binary" for binary phenotype, "survival" for time-to-event phenotype, and "others" for other types of phenotype.}
 
 \item{formula}{a formula to be passed to function glm() or coxph(). For more details, please refer to package survival.}
 
@@ -32,9 +32,9 @@ EmpSPA_Null_Model(
 
 \item{length.out}{a positive integer (default: 9999) for empirical CGF. Larger length.out corresponds to longer calculation time and more accurate estimated empirical CGF.}
 
-\item{Cova.mtx}{a covariate matrix including a column of 1s (only needed when the type of traits is neither survival nor binary).}
+\item{Cova.mtx}{a covariate matrix including a column of 1s (only needed when the type of phenotype is neither survival nor binary).}
 
-\item{resid}{a vector of residuals from a generalized linear regression model in which Cova.mtx is the covariate matrix (only needed when the type of traits is neither survival nor binary).}
+\item{resid}{a vector of residuals from a generalized linear regression model in which Cova.mtx is the covariate matrix (only needed when the type of phenotype is neither survival nor binary).}
 
 \item{...}{Other arguments passed to function glm() or coxph(). For more details, please refer to package survival.}
 }

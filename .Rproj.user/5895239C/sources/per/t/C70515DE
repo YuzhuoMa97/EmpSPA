@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612313417794.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1585130036",
+    "id" : "C70515DE",
+    "lastKnownWriteTime" : 1612314301,
+    "last_content_update" : 1612314301873,
+    "path" : "C:/Users/wenji/Dropbox/Wenjian-Systems-Biology/R_package/EmpSPA/R/hello.R",
+    "project_path" : "R/hello.R",
+    "properties" : {
+        "cursorPosition" : "29,35",
+        "scrollLine" : "12"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

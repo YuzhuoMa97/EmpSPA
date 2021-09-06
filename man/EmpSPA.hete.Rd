@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpSPA.R
 \name{EmpSPA.hete}
 \alias{EmpSPA.hete}
-\title{Empirical SaddlePoint Approximation implementation of a case-control(binary phenotype), surival(time-to-event phenotype) or analysis of other traits for heterogeneous case.}
+\title{Empirical SaddlePoint Approximation for heterozygous option (EmpSPA.hete) implementation of a case-control study (binary phenotype), surival analysis (time-to-event phenotype) or analysis of other types of phenotype for heterozygous option.}
 \usage{
 EmpSPA.hete(
   obj.null,
@@ -18,7 +18,7 @@ EmpSPA.hete(
 
 \item{Geno.mtx}{a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 Column names of genetic variations and row names of subject IDs are required.
-Missng genotype should be coded as NA. Both hard-called and imputed genotype data are supported.}
+Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.}
 
 \item{impute.method}{a character string (default: "fixed") to specify the method to impute missing genotypes.
 "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. 2p where p is MAF).}
@@ -32,32 +32,34 @@ Any variant with missing rate higher than this cutoff will be excluded from the 
 an R matrix with the following columns
 \item{MAF}{Minor allele frequencies}
 \item{missing.rate}{Missing rates}
-\item{p.value.empspa}{p value (recommanded) from a empirical saddlepoint approximation.}
-\item{p.value.empnorm}{p value from a empirical normal distribution approximation.}
+\item{p.value.empspa}{p value from a empirical saddlepoint approximation (EmpSPA).}
+\item{p.value.norm1}{p value from a empirical normal distribution approximation (Normal1).}
+\item{p.value.norm2}{p value from a empirical normal distribution approximation (Normal2).}
+\item{p.value.empspa2}{p value (recommanded) from a empirical saddlepoint approximation (EmpSPA2).}
 \item{Stat}{score statistics}
-\item{Var}{estimated variances of the score statistics}
-\item{z}{z values corresponding to the score statistics}
+\item{Var1}{estimated variances(from Normal1) of the score statistics}
+\item{z1}{z values(using Var1) corresponding to the score statistics}
+\item{Var2}{estimated variances(from Normal2) of the score statistics}
+\item{z2}{z values(using Var2) corresponding to the score statistics}
 }
 \description{
-A fast and accurate method for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
+A fast and accurate method (heterozygous option) for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
 }
 \details{
-To run EmpSPA.nonhomo, the following two steps are required:
+To run EmpSPA.hete, the following two steps are required:
 \itemize{
-  \item Step 1: Use function EmpSPA_Null_Model() to fit a null logistic regression model for binary phenotype or a null Cox model for time-to-event phenotype.
-  \item Step 2: Use function EmpSPA() to calculate p value for each genetic variant.
+  \item Step 1: Use function EmpSPA_Null_Model() to fit a null logistic regression model for binary phenotype, a null Cox model for time-to-event phenotype, or input residuals from a null generalized linear model to calculate the empirical CGF
+  \item Step 2: Use function EmpSPA.hete() to calculate p value for each genetic variant.
 }
 
-EmpSPA calculate p values with both empirical saddlepoint approximation(EmpSPA) and empirical normal distribution approximation(Empnorm).
-Generally speaking, empirical saddlepoint approximation(EmpSPA) is more accurate than, but a little slower than, the empirical normal approximation(Empnorm).
-When the score statistic is very close to 0 (i.e. p-values are not small), empirical saddlepoint approximation(EmpSPA) may be numerically unstable .
-To solve this problem, we replace the wrong p value from EmpSPA by the p value from Empnorm.
+EmpSPA.hete calculate p values with two empirical saddlepoint approximation methods for heterozygous option (EmpSPA and EmpSPA2) and two empirical normal distribution approximation methods for heterozygous option (Normal1 and Normal2).
+Generally speaking, empirical saddlepoint approximation methods (EmpSPA and EmpSPA2) are more accurate than, but a little slower than, the empirical normal approximation (Normal1 and Normal2) and the empirical saddlepoint approxiamtions for homozygous option.
+When the score statistic is very close to 0 (i.e. p-values are not small), empirical saddlepoint approximation (EmpSPA and EmpSPA2) may be numerically unstable.
+To solve this problem, we replace the wrong p value from EmpSPA and EmpSPA2 by the p values from Normal1 and Normal2, respectively.
 
-To calibrate the score statistics for Cox PH model, EmpSPA uses martingale residuals which are calculated via R package survival.
-All extentions (such as strata, ties, left-censoring) supported by package survival could also be used in EmpSPA.
+To calibrate the score statistics for Cox PH model or logistic model, EmpSPA.hete uses martingale residuals which are calculated via R package survival or residuals from glm(). As for the score statistics for other types of phenotype, residuals from a null model are needed.
+All extentions (such as strata, ties, left-censoring) supported by package survival could also be used in EmpSPA.hete.
 Time-varying covariates are also supported by splitting each subject into several observations.
-Simulation studies and real data analyses indicate that SPA works well if one subject corresponds to 2~3 observations.
-While, if there are more than 4 observations for each subject, EmpSPA has not been fully evaluated and the results should be carefully intepreted.
 
 Sometimes, the order of subjects between phenotype data and genotype data are different, which could lead to some errors.
 To avoid that, we ask users to specify the IDs of both phenotype data (pIDs) and genotype data (gIDs) when fitting the null model.
@@ -65,7 +67,7 @@ Users are responsible to check the consistency between pIDs and formula, and the
 }
 \examples{
 
-# example 1  time-to-event phenotype (heterogeneous)
+# example 1  time-to-event phenotype (heterozygous)
 # Simulation phenotype and genotype
 N = 10000
 nSNP = 1000
@@ -91,7 +93,7 @@ survival.res = EmpSPA.hete(obj.null, Geno.mtx)
 # we recommand using column of 'p.value.empspa' to associate genotype with time-to-event phenotypes
 head(survival.res)
 
-# example 2  binary phenotype (heterogeneous)
+# example 2  binary phenotype (heterozygous)
 # Simulation phenotype and genotype
 N = 10000
 nSNP = 1000
@@ -118,7 +120,7 @@ binary.res = EmpSPA.hete(obj.null, Geno.mtx)
 # we recommand using column of 'p.value.empspa' to associate genotype with binary phenotypes
 head(binary.res)
 
-# example 3 continuous phenotype (traits = "others") (heterogeneous)
+# example 3 continuous phenotype (traits = "others") (heterozygous)
 # Simulation phenotype and genotype
 N = 10000
 nSNP = 1000

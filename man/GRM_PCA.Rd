@@ -2,7 +2,7 @@
 % Please edit documentation in R/EmpSPA.R
 \name{GRM_PCA}
 \alias{GRM_PCA}
-\title{Calculate principle components from an empirical genomic relationship matrix (GRM) when all samples are independent.}
+\title{Calculate principle components from an empirical genomic relationship matrix (GRM) for the case in which all samples are independent.}
 \usage{
 GRM_PCA(Geno.mtx)
 }
@@ -13,11 +13,11 @@ GRM_PCA(Geno.mtx)
 top 10 PCs
 }
 \description{
-Use an empirical genomic relationship matrix (GRM) to calculate principle components when all samples are independent.
+Use an empirical genomic relationship matrix (GRM) to calculate principle components for the case in which all samples are independent.
 }
 \examples{
 
-# example 1  time-to-event phenotype (non-homogeneous)
+# example 1
 # Simulation phenotype and genotype
 N = 4000
 N1 = N/2

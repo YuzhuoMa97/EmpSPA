@@ -16,7 +16,7 @@ EmpSPA_R_Null_Model(
 \arguments{
 \item{Cova.mtx}{a covariate matrix including a column of 1s}
 
-\item{resid}{a vector of residuals from a genearlized linear regression model in which X is the covariate matrix}
+\item{resid}{a vector of residuals from a generalized linear regression model in which X is the covariate matrix}
 
 \item{pIDs}{a character vector of subject IDs. NOTE: its order should be the same as the subjects order in the covariate matrix X.}
 
