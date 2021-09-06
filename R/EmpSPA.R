@@ -6,7 +6,7 @@
 #' @param formula a formula to be passed to function glm() or coxph(). For more details, please refer to package survival.
 #' @param data a data.frame in which to interpret the variables named in the formula
 #' @param pIDs a character vector of subject IDs. NOTE: its order should be the same as the subjects order in the formula.
-#' @param gIDs a character vector of subject IDs. NOTE: its order should be the same as the subjects order of the Geno.mtx (i.e. the input of the function EmpSPA()).
+#' @param gIDs a character vector of subject IDs. NOTE: its order should be the same as the subjects order of the Geno.mtx (i.e. the input of the function EmpSPA.homo() or EmpSPA.hete()).
 #' @param range a two-element numeric vector (default: c(-100,100)) to specify the domain of the empirical CGF.
 #' @param length.out a positive integer (default: 9999) for empirical CGF. Larger length.out corresponds to longer calculation time and more accurate estimated empirical CGF.
 #' @param Cova.mtx a covariate matrix including a column of 1s (only needed when the type of phenotype is neither survival nor binary).
