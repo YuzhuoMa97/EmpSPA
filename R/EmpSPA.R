@@ -865,26 +865,6 @@ check_input_R = function(pIDs, gIDs, R, range)
   return(p2g)
 }
 
-
-# G = Geno.mtx.PCA
-# p.est0 = 0.5 * colMeans(G)
-# p.est0.mtx = matrix(0, N, nSNP)
-# for (i in 1:N) {
-#   p.est0.mtx[i,] = p.est0
-# }
-# Z = (G - 2 * p.est0.mtx)/sqrt(2 * p.est0.mtx * (1 - p.est0.mtx))
-# GRM = Z %*% t(Z) / nSNP
-#
-# pca.pr<-princomp(covmat = GRM)
-# summary(pca.pr,loadings = TRUE)
-# PC1 = pca.pr$loadings[,1]
-# PC2 = pca.pr$loadings[,2]
-# PC3 = pca.pr$loadings[,3]
-# PC4 = pca.pr$loadings[,4]
-# library(ggplot2)
-# qplot(PC1, PC2)
-# top10_PC = pca.pr$loadings[,1:10]
-
 #'Calculate principle components from an empirical genomic relationship matrix (GRM) for the case in which all samples are independent.
 #'
 #' Use an empirical genomic relationship matrix (GRM) to calculate principle components for the case in which all samples are independent.
@@ -899,8 +879,10 @@ check_input_R = function(pIDs, gIDs, R, range)
 #'N2 = N/2
 #'nSNP = 10000
 #'p.PCA = runif(nSNP, min = 0.2, max = 0.5)
-#'p1.PCA = runif(nSNP, min = 0.2, max = 0.5)
-#'p2.PCA = runif(nSNP, min = 0.2, max = 0.5)
+#'theta1 = 0.05
+#'theta2 = 0.15
+#'p1.PCA = rbeta(nSNP, p.PCA*(1-theta1)/theta1, (1-p.PCA)*(1-theta1)/theta1)
+#'p2.PCA = rbeta(nSNP, p.PCA*(1-theta2)/theta2, (1-p.PCA)*(1-theta2)/theta2)
 #'P.PCA = cbind(p1.PCA, p2.PCA)
 #'### i.i.d subject & i.i.d SNPS matrix
 #'P1.mtx.PCA = matrix(0, N1, nSNP)
