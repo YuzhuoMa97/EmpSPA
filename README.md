@@ -8,3 +8,4 @@ library(EmpSPA)
 ?EmpSPA  # manual of EmpSPA package
 ```
 Current version is 0.0.9. For older version and version update information, plesase refer to OldVersions/
+Please do not hesitate to contact me (yuzhuom@mail.sdu.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
