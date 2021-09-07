@@ -2,9 +2,9 @@ Package: EmpSPA
 Type: Package
 Title: A fast and accurate method for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
 Version: 0.0.9
-Date: 2021-09-06
+Date: 2021-09-07
 Author: Yuzhuo Ma, Wenjian Bi
-Maintainer: Yuzhuo Ma <yourself@somewhere.net>
+Maintainer: Yuzhuo Ma <yuzhuom@mail.sdu.edu.cn>
 Description: An empirical saddlepoint approximation method for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
 License: GPL3
 Encoding: UTF-8
