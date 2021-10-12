@@ -428,6 +428,9 @@ EmpSPA.homo = function(obj.null,
 #' @param Geno.mtx a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
+#' @param Cutoff a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
+#'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
+#'               otherwise, its p value is calculated based on a saddlepoint approximation.
 #' @param min.maf a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param impute.method a character string (default: "fixed") to specify the method to impute missing genotypes.
 #'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. 2p where p is MAF).
@@ -549,6 +552,7 @@ EmpSPA.homo = function(obj.null,
 
 EmpSPA.hete = function(obj.null,
                        Geno.mtx,
+                       Cutoff = 2,
                        impute.method = "fixed",
                        missing.cutoff = 0.15,
                        min.maf = 0.0001,
@@ -581,17 +585,17 @@ EmpSPA.hete = function(obj.null,
     g = Geno.mtx[,i]
     output.one.SNP = EmpSPA.one.SNP.hete(g,
                                          obj.null,
-                                         #Cutoff,
+                                         Cutoff,
                                          impute.method,
                                          missing.cutoff,
                                          min.maf,
                                          #CovAdj.cutoff,
                                          G.model)
     output[i,] = output.one.SNP
-    output[i,3]<-ifelse(abs(output[i,4] - output[i,3]) - 0.5 > 0,
-                        output[i,4],output[i,3])
-    output[i,6]<-ifelse(abs(output[i,5] - output[i,6]) - 0.5 > 0,
-                        output[i,5],output[i,6])
+    # output[i,3]<-ifelse(abs(output[i,4] - output[i,3]) - 0.5 > 0,
+    #                     output[i,4],output[i,3])
+    # output[i,6]<-ifelse(abs(output[i,5] - output[i,6]) - 0.5 > 0,
+    #                     output[i,5],output[i,6])
   }
 
   print("Analysis Complete.")
@@ -691,6 +695,7 @@ EmpSPA.one.SNP.homo = function(g,
 
 EmpSPA.one.SNP.hete = function(g,
                                obj.null,
+                               Cutoff = 2,
                                impute.method = "fixed",
                                missing.cutoff = 0.15,
                                min.maf = 0.0001,
@@ -728,10 +733,15 @@ EmpSPA.one.SNP.hete = function(g,
   ## estimated variance without adjusting for covariates
   N1set = 1:N
   N0 = 0
-  G1 = g - obj.null$X.invXX %*% (obj.null$tX[,N1set,drop=F] %*% g[N1set])   # centered genotype (such that mean=0)
+  MAF.est = (1/2) * obj.null$X.invXX %*% (obj.null$tX[,N1set,drop=F] %*% g[N1set])
+  G1 = g - 2 * MAF.est   # centered genotype (such that mean=0)
   S.var1 = obj.null$var.resid * sum(G1^2)
   z1 = S/sqrt(S.var1)
-  MAF.est = 0.5 * obj.null$X.invXX %*% (obj.null$tX[,N1set,drop=F] %*% g[N1set])
+  MAF0 = 1/(2 * length(g))
+  for (i in 1:N) {
+    MAF.est[i] = ifelse(MAF.est[i] < 0, MAF0, MAF.est[i])
+    MAF.est[i] = ifelse(MAF.est[i] > 1, 1 - MAF0, MAF.est[i])
+  }
   g.var.est = 2 * MAF.est * (1 - MAF.est)
   S.var2 = sum((obj.null$resid)^2 * g.var.est)
   z2 = S/sqrt(S.var2)
@@ -752,18 +762,25 @@ EmpSPA.one.SNP.hete = function(g,
   a1 = re1[2]
   a2 = re2[2]
 
-  pval1 = re1[1] # EmpSPA
-  pval2 = re2[1] # EmpSPA
+  pval1 = re1[1] # SPACox
+  pval2 = re2[1] # SPACox
   pval3 = pnorm(abs(z1), lower.tail = FALSE) # Normal1
   pval4 = pnorm(-abs(z1), lower.tail = TRUE) # Normal1
   pval5 = pnorm(abs(z2), lower.tail = FALSE) # Normal2
   pval6 = pnorm(-abs(z2), lower.tail = TRUE) # Normal2
-  pval7 = pnorm(a1 * sqrt(S.var1/S.var2), lower.tail = FALSE) # EmpSPA2
-  pval8 = pnorm(a2 * sqrt(S.var1/S.var2), lower.tail = TRUE) # EmpSPA2
+  pval7 = pnorm(a1 * sqrt(S.var1/S.var2), lower.tail = FALSE) # EmpSPA+
+  pval8 = pnorm(a2 * sqrt(S.var1/S.var2), lower.tail = TRUE) # EmpSPA+
   pval.empspa = pval1 + pval2
   pval.norm1 = pval3 + pval4
   pval.norm2 = pval5 + pval6
   pval.empspa2 = pval7 + pval8
+
+  if(abs(z1) < Cutoff){
+    pval.empspa = pval.norm1
+  }
+  if(abs(z2) < Cutoff){
+    pval.empspa2 = pval.norm2
+  }
 
   pval = c(pval.empspa, pval.norm1, pval.norm2, pval.empspa2) # 4 elements: element 1 is from EmpSPA, element 2 is from Normal1, element 3 is from Normal2, element 4 is from EmpSPA2
 
