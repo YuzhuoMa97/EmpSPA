@@ -1,4 +1,4 @@
-# EmpSPA
+# SPAGxECCT
 Empirical SaddlePoint Approximation implementation of GWAS for binary, time-to-event, or other traits
 ## How to install and load this package
 ```

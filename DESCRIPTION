@@ -1,14 +1,14 @@
-Package: EmpSPA
+Package: SPAGxECCT
 Type: Package
-Title: A fast and accurate method for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
-Version: 0.0.9
-Date: 2021-09-07
+Title: A unified approach to large-scale genome-wide gene-environment interaction analysis.
+Version: 0.0.1
+Date: 2024-03-30
 Author: Yuzhuo Ma, Wenjian Bi
-Maintainer: Yuzhuo Ma <yuzhuom@mail.sdu.edu.cn>
-Description: An empirical saddlepoint approximation method for a genome-wide case-control study, survival analysis or analysis of other traits on a large-scale dataset.
+Maintainer: Yuzhuo Ma <yuzhuoma@stu.pku.edu.cn>
+Description: A unified approach to large-scale genome-wide gene-environment interaction studies of binary traits, quantitative traits, time-to-event traits, and ordinal categorical traits.
 License: GPL3
 Encoding: UTF-8
 LazyData: true
-Imports: survival
-LinkingTo: survival
-RoxygenNote: 7.1.1
+Imports: survival, ordinal
+LinkingTo: survival, ordinal
+RoxygenNote: 7.2.3
