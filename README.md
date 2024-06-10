@@ -3,7 +3,7 @@ Empirical SaddlePoint Approximation implementation of GWAS for binary, time-to-e
 ## How to install and load this package
 ```
 library(devtools)  # author version: 0.0.9
-install_github("YZ-Ma/EmpSPA")
+install_github("YuzhuoMa97/EmpSPA")
 library(EmpSPA)
 ?EmpSPA  # manual of EmpSPA package
 ```
